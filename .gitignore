@@ -1,0 +1,3 @@
+# Project exclude paths
+/spzx-manager/target/
+/spzx-model/target/

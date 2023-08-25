@@ -1,0 +1,20 @@
+#端口号
+server:
+  port: 8501
+#数据库
+spring:
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://localhost:3306/db_spzx
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    redis:
+      port: 6379
+      host: 192.168.200.119
+#mybatis
+mybatis:
+  mapper-locations: classpath:mappers/*.xml
+  config-location: classpath:mybatis-config.xml
+
+#日志

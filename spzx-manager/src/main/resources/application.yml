@@ -1,0 +1,7 @@
+ #给当前应用起一个名字
+ spring:
+   application:
+     name: service-manager
+ #设置使用坏境
+   profiles:
+     active: dev
