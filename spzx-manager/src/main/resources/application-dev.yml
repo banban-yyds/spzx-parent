@@ -17,4 +17,20 @@ mybatis:
   mapper-locations: classpath:mappers/*.xml
   config-location: classpath:mybatis-config.xml
 
-#日志
+#配置不拦截的路径
+spzx:
+  auth:
+    noAuthUrls:
+      - /admin/system/index/login
+      - /admin/system/index/generateValidateCode
+      - /doc.html
+      - /webjars/css/**
+      - /webjars/js/**
+      - /v3/api-docs/**
+      - /favicon.ico
+# 自定义配置
+  minio:
+    endpointUrl: http://localhost:9000
+    accessKey: minioadmin
+    secreKey: minioadmin
+    bucketName: spzx

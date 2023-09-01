@@ -11,6 +11,7 @@
     </settings>
 <!--    <plugins>-->
 <!--        &lt;!&ndash; 分页插件 &ndash;&gt;-->
-<!--        <plugin interceptor="com.github.pagehelper.PageInterceptor"/>-->
+<!--&lt;!&ndash;        <plugin interceptor="com.github.pagehelper.PageInterceptor"/>&ndash;&gt;-->
+
 <!--    </plugins>-->
 </configuration>

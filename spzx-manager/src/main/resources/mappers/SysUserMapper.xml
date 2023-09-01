@@ -4,10 +4,78 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.atguigu.spzx.manager.mapper.SysUserMapper">
 
+    <insert id="addUser">
+        insert into sys_user(username,password,name,phone,avatar,description)
+        values (#{username},#{password},#{name},#{phone}, #{avatar},#{description})
+    </insert>
+    <update id="updateUser">
+        update sys_user
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="phone != null and phone != ''">
+                phone = #{phone},
+            </if>
+            <if test="username != null and username != ''">
+                username = #{username},
+            </if>
+            <if test="avatar != null and avatar != ''">
+                avatar = #{avatar},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+            <if test="status != null and status != ''">
+                status = #{status},
+            </if>
+        </set>
+            where id = #{id}
+    </update>
+
+    <update id="deleteUserById">
+        update sys_user set is_deleted = 1 where id = #{id};
+    </update>
 
     <select id="findSysUserByUsername" resultType="com.atguigu.spzx.model.entity.system.SysUser">
         select id, username, password, name, phone, avatar, description, status, create_time, update_time, is_deleted
             from sys_user
         where username = #{username} and is_deleted = 0
+    </select>
+    
+    <select id="findUserPage" resultType="com.atguigu.spzx.model.entity.system.SysUser">
+        select id, username, password, name, phone, avatar, description, status, create_time, update_time, is_deleted
+            from sys_user
+        <where>
+            <if test="keyword != null and keyword != ''">
+                (username like "%"#{keyword}"%" or name like "%"#{keyword}"%" or phone like "%"#{keyword}"%")
+            </if>
+            <if test="createTimeBegin != null and createTimeBegin != ''">
+                and create_time >= #{createTimeBegin}
+            </if>
+            <if test="createTimeEnd != null and createTimeEnd != ''">
+                and create_time &lt;= #{createTimeEnd}
+            </if>
+            and is_deleted = 0
+        </where>
+            order by id desc
+    </select>
+    <select id="getUserById" resultType="com.atguigu.spzx.model.entity.system.SysUser">
+        select id, username, password, name, phone, avatar, description, status, create_time, update_time, is_deleted
+            from sys_user
+            where id = #{id} and is_deleted = 0
+    </select>
+    <select id="getSysUserMenuByUserId" resultType="com.atguigu.spzx.model.entity.system.SysMenu">
+        select sm.*
+            from sys_menu sm
+        inner join sys_role_menu srm
+            on sm.id = srm.menu_id
+        inner join sys_user_role sur
+            on srm.role_id = sur.role_id
+        where sur.user_id = #{userId}
+            and sur.is_deleted = 0
+            and srm.is_deleted = 0
+            and sm.is_deleted = 0
+            and sm.status = 1
     </select>
 </mapper>

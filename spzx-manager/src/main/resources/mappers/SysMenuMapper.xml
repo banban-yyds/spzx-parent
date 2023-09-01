@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.spzx.manager.mapper.SysMenuMapper">
+
+    <delete id="deleteMenuByRoleId">
+        delete from sys_role_menu where role_id = #{roleId}
+    </delete>
+
+    <insert id="assignMenus">
+        insert into sys_role_menu(role_id,menu_id,is_half)
+        values
+            <foreach collection="menuIdList" separator="," item="menu">
+                (#{roleId},#{menu.id},#{menu.isHalf})
+            </foreach>
+    </insert>
+
+
+    <select id="findAllNode" resultType="com.atguigu.spzx.model.entity.system.SysMenu">
+        select id, parent_id, title, component, sort_value, status, create_time, update_time, is_deleted
+            from sys_menu
+        where is_deleted = 0
+    </select>
+
+    <select id="findMenuNodeById" resultType="com.atguigu.spzx.model.entity.system.SysMenu">
+        select id, parent_id, title, component, sort_value, status, create_time, update_time, is_deleted
+            from sys_menu
+        where id = #{id} and is_deleted = 0
+    </select>
+
+    <select id="findChildNode" resultType="java.lang.Integer">
+        select count(id)
+            from sys_menu
+        where parent_id = #{id} and is_deleted = 0
+    </select>
+
+    <!--  查询所有的菜单  -->
+    <select id="getAllMenuTreeNode" resultType="com.atguigu.spzx.model.entity.system.SysMenu">
+        select id, parent_id, title, component, sort_value, status, create_time, update_time, is_deleted
+            from sys_menu
+        where is_deleted = 0
+        order by sort_value
+    </select>
+
+
+    <select id="getSysRoleMenuIdsByRoleId" resultType="java.lang.Long">
+        select menu_id
+            from sys_role_menu
+        where role_id = #{roleId} and is_deleted = 0 and is_half = 0
+    </select>
+
+    <update id="deleteMenuNode">
+        update sys_menu set is_deleted = 1 where id = #{id}
+    </update>
+
+    <insert id="addMenuNode">
+        insert into sys_menu(parent_id, title, component, sort_value, status)
+        values (#{parentId},#{title},#{component},#{sortValue},#{status})
+
+    </insert>
+
+
+    <update id="updateMenuNode">
+        update sys_menu
+        <set>
+            <if test="parentId != null">
+                parent_Id = #{parentId},
+            </if>
+            <if test="title != null and title != ''">
+                title = #{title},
+            </if>
+            <if test="component != null and component != ''">
+                component = #{component},
+            </if>
+            <if test="sortValue != null and sortValue != ''">
+                sort_value = #{sortValue},
+            </if>
+            <if test="status != null and status != ''">
+                status = #{status},
+            </if>
+        </set>
+            where id = #{id}
+    </update>
+
+</mapper>

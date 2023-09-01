@@ -7,7 +7,12 @@ public enum ResultCodeEnum {
     SUCCESS(200,"操作成功"),
     LOGIN_ERROR(201,"用户名或密码错误"),
     SYSTEM_ERROR(202,"用户不存在"),
-    VALIDATECODE_ERROR(202 , "验证码错误")
+    VALIDATECODE_ERROR(202 , "验证码错误"),
+    CODE_ERROR(203,"不能为空"),
+    LOGIN_AUTH(207,"登陆超时"),
+
+    IS_PARENT(208,"总有逆子想当爹")
+
     ;
 
     private Integer code;
