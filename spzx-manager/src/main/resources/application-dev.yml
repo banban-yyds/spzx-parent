@@ -15,7 +15,10 @@ spring:
 #mybatis
 mybatis:
   mapper-locations: classpath:mappers/*.xml
-  config-location: classpath:mybatis-config.xml
+#  config-location: classpath:mybatis-config.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 #配置不拦截的路径
 spzx:

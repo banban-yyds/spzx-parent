@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.spzx.manager.mapper.CategoryMapper">
+    <!-- 1.1根据父id查询 所有的父分类-->
+    <select id="findByParentId" resultType="com.atguigu.spzx.model.entity.product.Category">
+        select id, name, image_url, parent_id, status, order_num, create_time, update_time, is_deleted
+            from category
+        where parent_id = #{parentId} and is_deleted = 0
+    </select>
+    <!-- 1.2根据父分类的id 查询该分类是否有子分类-->
+    <select id="findCountByParentId" resultType="java.lang.Integer">
+        select count(id)
+            from category
+        where parent_id = #{id} and is_deleted = 0
+    </select>
+
+    <!--2.1 EasyExcel(写),查询所有的分类-->
+    <select id="findAll" resultType="com.atguigu.spzx.model.entity.product.Category">
+        select id, name, image_url, parent_id, status, order_num, create_time, update_time, is_deleted
+            from category
+        where is_deleted = 0
+    </select>
+    
+    <!--2.2 EasyExcel(读),插入缓存中的Category表格数据-->
+    <insert id="batchAdd">
+        insert into category(id, name, image_url, parent_id, status, order_num)
+        values 
+            <foreach collection="cachedDataList" separator="," item="categoryExcelVo">
+                (#{categoryExcelVo.id},
+                 #{categoryExcelVo.name},
+                 #{categoryExcelVo.imageUrl},
+                 #{categoryExcelVo.parentId},
+                 #{categoryExcelVo.status},
+                 #{categoryExcelVo.orderNum})
+            </foreach>
+    </insert>
+</mapper>

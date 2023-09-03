@@ -66,7 +66,7 @@
             where id = #{id} and is_deleted = 0
     </select>
     <select id="getSysUserMenuByUserId" resultType="com.atguigu.spzx.model.entity.system.SysMenu">
-        select sm.*
+        select distinct sm.*
             from sys_menu sm
         inner join sys_role_menu srm
             on sm.id = srm.menu_id
