@@ -4,6 +4,8 @@ package com.atguigu.spzx.manager.service;
 import com.atguigu.spzx.model.entity.product.Brand;
 import com.github.pagehelper.PageInfo;
 
+import java.util.List;
+
 public interface BrandService {
 
     PageInfo<Brand> getBrandPageList(Integer pageNum, Integer pageSize);
@@ -15,4 +17,6 @@ public interface BrandService {
     void deleteBrandById(Long id);
 
     Brand getBrandById(Long id);
+
+    List<Brand> findAll();
 }

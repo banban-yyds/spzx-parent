@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.spzx.manager.mapper.ProductSpecMapper">
+
+    <insert id="saveProductSpec">
+        insert into product_spec(spec_name, spec_value)
+        values(#{specName},#{specValue})
+    </insert>
+
+    <update id="updateProductSpecById">
+        update product_spec
+        <set>
+            <if test="specName != null and specName != ''">
+                spec_name = #{specName},
+            </if>
+            <if test="specValue != null and specValue != ''">
+                spec_value = #{specValue},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <update id="deleteProductSpecById">
+        update product_spec set is_deleted = 1 where id = #{id}
+    </update>
+
+    <select id="getProductSpecPageList" resultType="com.atguigu.spzx.model.entity.product.ProductSpec">
+        select id, spec_name, spec_value, create_time, update_time, is_deleted
+            from product_spec
+        where is_deleted = 0
+        order by id desc
+    </select>
+
+    <!--查询所有的productSpec-->
+    <select id="findAll" resultType="com.atguigu.spzx.model.entity.product.ProductSpec">
+        select id, spec_name, spec_value, create_time, update_time, is_deleted
+            from product_spec
+        where is_deleted = 0
+        order by id desc
+    </select>
+</mapper>

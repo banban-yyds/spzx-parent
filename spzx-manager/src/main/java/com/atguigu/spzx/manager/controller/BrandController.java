@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequestMapping("/admin/product/brand")
@@ -45,5 +47,11 @@ public class BrandController {
     public Result<Brand> getBrandById(@PathVariable(value = "id")Long id){
         Brand brand = brandService.getBrandById(id);
         return Result.build(brand, ResultCodeEnum.SUCCESS);
+    }
+
+    @GetMapping("/findAll")
+    public Result findAll(){
+        List<Brand> brandList = brandService.findAll();
+        return Result.build(brandList, ResultCodeEnum.SUCCESS);
     }
 }

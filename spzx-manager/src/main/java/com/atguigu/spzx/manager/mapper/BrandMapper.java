@@ -16,4 +16,6 @@ public interface BrandMapper {
     void deleteBrandById(Long id);
 
     Brand getBrandById(Long id);
+
+    List<Brand> findAll();
 }

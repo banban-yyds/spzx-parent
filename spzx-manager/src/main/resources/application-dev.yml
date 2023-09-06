@@ -12,6 +12,9 @@ spring:
     redis:
       port: 6380
       host: 192.168.200.119
+  jackson:
+    date-format: yyyy--MM-dd hh:mm:ss
+    time-zone: GMT+8
 #mybatis
 mybatis:
   mapper-locations: classpath:mappers/*.xml

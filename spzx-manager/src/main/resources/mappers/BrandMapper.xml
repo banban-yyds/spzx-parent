@@ -49,5 +49,12 @@
         update brand set is_deleted = 1 where id = #{id} limit 1
     </update>
 
+    <!--5.查询所有的品牌数据-->
+    <select id="findAll" resultType="com.atguigu.spzx.model.entity.product.Brand">
+        select id, name, logo, create_time, update_time, is_deleted
+            from brand
+        where is_deleted = 0
+    </select>
+
 
 </mapper>

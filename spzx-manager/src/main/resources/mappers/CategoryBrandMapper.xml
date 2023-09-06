@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.spzx.manager.mapper.CategoryBrandMapper">
+
+    <!--1.查询分页 利用中间表进而查询category和brand表-->
+    <select id="findByPage" resultType="com.atguigu.spzx.model.entity.product.CategoryBrand">
+        select cb.*,c.name categoryName,b.name brandName,b.logo
+            from category_brand cb
+        inner join category c
+            on cb.category_id = c.id
+        inner join brand b
+            on cb.brand_id = b.id
+        <where>
+            <if test="brandId != null and brandId != ''">
+                brand_id = #{brandId}
+            </if>
+            <if test="categoryId != null and categoryId != ''">
+                and category_Id = #{categoryId}
+            </if>
+            and cb.is_deleted = 0
+            and c.is_deleted = 0
+            and b.is_deleted = 0
+        </where>
+        order by cb.id desc
+    </select>
+
+    <!--2.向中间表插入b_id 和 c_id-->
+    <insert id="SaveCategoryBrand">
+        insert into category_brand(brand_id, category_id)
+        values(#{brandId},#{categoryId})
+    </insert>
+
+    <!--3.根据id更新-->
+    <update id="updateCategoryBrandById">
+        update category_brand
+        <set>
+            <if test="brandId != null and brandId != ''">
+                brand_id = #{brandId},
+            </if>
+            <if test="categoryId != null and categoryId != ''">
+                category_Id = #{categoryId},
+            </if>
+        </set>
+        where id = #{id}
+        limit 1
+    </update>
+
+    <!--4.根据id进行逻辑删除-->
+    <delete id="deleteCategoryBrandById">
+        delete from category_brand where id = #{id}
+    </delete>
+
+    <!--根据categoryId查询所有品牌-->
+    <select id="findBrandByCategoryId" resultType="com.atguigu.spzx.model.entity.product.Brand">
+        select b.*
+            from category_brand cb
+        inner join brand b
+            on cb.brand_id = b.id
+        where cb.category_id = #{categoryId}
+            and cb.is_deleted = 0
+            and b.is_deleted = 0
+    </select>
+
+
+
+</mapper>

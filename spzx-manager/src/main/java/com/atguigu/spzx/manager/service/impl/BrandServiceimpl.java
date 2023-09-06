@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Slf4j
 @Service
 public class BrandServiceimpl implements BrandService {
@@ -40,5 +42,10 @@ public class BrandServiceimpl implements BrandService {
     @Override
     public Brand getBrandById(Long id) {
         return brandMapper.getBrandById(id);
+    }
+
+    @Override
+    public List<Brand> findAll() {
+        return brandMapper.findAll();
     }
 }

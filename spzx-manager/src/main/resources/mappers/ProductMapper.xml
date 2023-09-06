@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.spzx.manager.mapper.ProductMapper">
+
+    <!--保存product-->
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        insert into product(name,
+                            brand_id,
+                            category1_id,
+                            category2_id,
+                            category3_id,
+                            unit_name,
+                            slider_urls,
+                            spec_value,
+                            status,
+                            audit_status)
+        VALUES(#{name},
+               #{brandId},
+               #{category1Id},
+               #{category2Id},
+               #{category3Id},
+               #{unitName},
+               #{sliderUrls},
+               #{specValue},
+               #{status},
+               #{auditStatus})
+    </insert>
+    <update id="updateById">
+        update product
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="brandId != null">
+                brand_id = #{brandId},
+            </if>
+            <if test="category1Id != null">
+                category1_id = #{category1Id},
+            </if>
+            <if test="category2Id != null">
+                category2_id = #{category2Id},
+            </if>
+            <if test="category3Id != null">
+                category3_id = #{category3Id},
+            </if>
+            <if test="unitName != null">
+                unit_name = #{unitName},
+            </if>
+            <if test="sliderUrls != null">
+                slider_urls = #{sliderUrls},
+            </if>
+            <if test="specValue != null">
+                spec_value = #{specValue},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="auditStatus != null">
+                audit_status = #{auditStatus},
+            </if>
+            <if test="auditMessage != null">
+                audit_Message = #{auditMessage},
+            </if>
+        </set>
+            where id = #{id}
+    </update>
+    <!--逻辑产品删除-->
+    <update id="deleteById">
+        <!--只有一个参数时，#{}中的名字任意-->
+        update product set is_deleted = 1 where id = #{id}
+    </update>
+
+    <select id="getProductPageList" resultType="com.atguigu.spzx.model.entity.product.Product">
+        select p.*, b.name brandName, c1.name category1Name, c2.name category2Name, c3.name category3Name
+            from product p
+        inner join brand b on p.brand_id = b.id
+        inner join category c1 on p.category1_id = c1.id
+        inner join category c2 on p.category2_id = c2.id
+        inner join category c3 on p.category3_id = c3.id
+        <where>
+            <if test="brandId != null">
+                and brand_Id = #{brandId}
+            </if>
+            <if test="category1Id != null">
+                and category1_Id = #{category1Id}
+            </if>
+            <if test="category2Id != null">
+                and category2_Id = #{category2Id}
+            </if>
+            <if test="category3Id != null">
+                and category3_Id = #{category3Id}
+            </if>
+            and p.is_deleted = 0
+            and b.is_deleted = 0
+            and c1.is_deleted = 0
+            and c2.is_deleted = 0
+            and c3.is_deleted = 0
+        </where>
+        order by id desc
+    </select>
+    <select id="getById" resultType="com.atguigu.spzx.model.entity.product.Product">
+        select p.*,b.name brandName,c1.name category1Name,c2.name category2Name,c3.name category3Name
+            from product p
+        inner join brand b on p.brand_id = b.id
+        inner join category c1 on c1.id = p.category1_id
+        inner join category c2 on c2.id = p.category2_id
+        inner join category c3 on c3.id = p.category3_id
+        <where>
+            p.id = #{id}
+            and p.is_deleted = 0
+            and b.is_deleted = 0
+            and c1.is_deleted = 0
+            and c2.is_deleted = 0
+            and c3.is_deleted = 0
+        </where>
+    </select>
+</mapper>
