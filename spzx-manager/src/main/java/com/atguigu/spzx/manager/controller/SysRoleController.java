@@ -1,6 +1,7 @@
 package com.atguigu.spzx.manager.controller;
 
 import cn.hutool.db.Page;
+import com.atguigu.spzx.common.log.annotation.Log;
 import com.atguigu.spzx.manager.service.SysRoleService;
 import com.atguigu.spzx.model.dto.system.AssginRoleDto;
 import com.atguigu.spzx.model.dto.system.SysRoleDto;
@@ -39,6 +40,7 @@ public class SysRoleController {
         return Result.build(null,ResultCodeEnum.SUCCESS);
     }
 
+   @Log(title = "修改角色")
     @PutMapping("/updateByid")
     public Result updateByid(@RequestBody SysRole sysRole){
         sysRoleService.updateByid(sysRole);

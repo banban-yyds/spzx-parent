@@ -1,5 +1,6 @@
 package com.atguigu.spzx.manager.controller;
 
+import com.atguigu.spzx.common.log.annotation.Log;
 import com.atguigu.spzx.manager.service.SysUserService;
 import com.atguigu.spzx.model.dto.system.SysUserDto;
 import com.atguigu.spzx.model.entity.system.SysUser;
@@ -31,6 +32,7 @@ public class SysUserController {
         return Result.build(null, ResultCodeEnum.SUCCESS);
     }
 
+    @Log(title = "用户信息修改")
     @PutMapping("/updateUser")
     public Result updateUser(@RequestBody SysUser sysUser){
         log.info(sysUser.toString());

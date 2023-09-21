@@ -1,0 +1,35 @@
+server:
+  port: 8515
+spring:
+  application:
+    name: service-pay
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+    sentinel:
+      transport:
+        dashboard: localhost:8080
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/db_spzx
+    username: root
+    password: 123456
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+ #     password: 1234
+  config:
+    import: application-alipay.yml
+
+mybatis:
+  #config-location: classpath:mybatis-config.xml
+  mapper-locations: classpath:mappers/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+feign:
+  sentinel:
+    enabled: true

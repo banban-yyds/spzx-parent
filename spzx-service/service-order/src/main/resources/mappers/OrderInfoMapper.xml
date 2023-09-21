@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.spzx.order.mapper.OrderInfoMapper">
+
+    <!--保存订单-->
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        insert into order_info (
+            user_id,
+            nick_name,
+            order_no,
+            coupon_id,
+            total_amount,
+            coupon_amount,
+            original_total_amount,
+            feight_fee,
+            pay_type,
+            order_status,
+            receiver_name,
+            receiver_phone,
+            receiver_tag_name,
+            receiver_province,
+            receiver_city,
+            receiver_district,
+            receiver_address,
+            payment_time,
+            delivery_time,
+            receive_time,
+            remark,
+            cancel_time,
+            cancel_reason
+        ) values (
+                     #{userId},
+                     #{nickName},
+                     #{orderNo},
+                     #{couponId},
+                     #{totalAmount},
+                     #{couponAmount},
+                     #{originalTotalAmount},
+                     #{feightFee},
+                     #{payType},
+                     #{orderStatus},
+                     #{receiverName},
+                     #{receiverPhone},
+                     #{receiverTagName},
+                     #{receiverProvince},
+                     #{receiverCity},
+                     #{receiverDistrict},
+                     #{receiverAddress},
+                     #{paymentTime},
+                     #{deliveryTime},
+                     #{receiveTime},
+                     #{remark},
+                     #{cancelTime},
+                     #{cancelReason}
+                     )
+    </insert>
+
+    <select id="getUserOrderInfo" resultMap="orderInfoMap">
+        select *
+        from order_info
+        <where>
+            <if test="orderStatus != null and orderStatus != ''">
+                order_status = #{orderStatus}
+            </if>
+            and user_id = #{userId}
+            and is_deleted = 0
+        </where>
+        order by id desc
+    </select>
+    <select id="getOrderInfoByOrderNo" resultMap="orderInfoMap">
+        select *
+        from order_info
+        where order_no = #{orderNo}
+        and is_deleted = 0
+    </select>
+    <select id="getOrderInfoById" resultType="com.atguigu.spzx.model.entity.order.OrderInfo">
+        select *
+        from order_info
+        where id = #{orderId}
+        and is_deleted = 0
+    </select>
+
+    <resultMap id="orderInfoMap" type="com.atguigu.spzx.model.entity.order.OrderInfo" autoMapping="true">
+         <!--映射主键-->
+        <id column="id" property="id"></id>
+        <!--映射订单中的订单项
+            property属性：配置要映射的属性名
+            ofType属性：指定集合中的泛型的类型
+            select属性：指定要调用哪个接口的方法进行查询
+            column属性：指定调用某个接口时将那个字段的值作为参数传递过去
+        -->
+        <collection property="orderItemList"
+                    ofType="com.atguigu.spzx.model.entity.order.OrderItem"
+                    select="com.atguigu.spzx.order.mapper.OrderItemMapper.getOrderItemListByOrderId"
+                    column="id"></collection>
+    </resultMap>
+</mapper>

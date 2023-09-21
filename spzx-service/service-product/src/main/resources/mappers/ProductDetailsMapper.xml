@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.spzx.product.mapper.ProductDetailsMapper">
+
+    <select id="getdetailsImageUrlByproductId"
+            resultType="com.atguigu.spzx.model.entity.product.ProductDetails">
+        select *
+        from product_details
+        where product_id = #{productId}
+        and  is_deleted = 0
+
+    </select>
+</mapper>
